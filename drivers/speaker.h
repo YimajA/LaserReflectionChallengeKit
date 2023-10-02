@@ -14,7 +14,7 @@ class Speaker {
     public:
     Speaker(PinName pin);
 
-    void playToneSin(int freqency, int durationMillis);
+    void playToneSin(int frequency, int durationMillis);
 
     void playToneSquare(int frequency, int durationMillis);
 };
