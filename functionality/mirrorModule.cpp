@@ -1,4 +1,5 @@
 #include "mirrorModule.h"
+//Yimaj Ahmed
 
 MirrorModule::MirrorModule(Servo* servo, AddressableLEDStrip* leds, int LEDIndex) {
     // Todo
@@ -16,6 +17,7 @@ MirrorModule::Mode MirrorModule::getMode() {
 
 void MirrorModule::setAngle(int degrees) {
     // Todo
+    
 }
 
 // gets the angle in degrees
