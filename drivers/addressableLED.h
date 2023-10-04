@@ -11,6 +11,10 @@ class AddressableLEDStrip {
     DigitalOut dout;
     int numberOfLEDs;
 
+    void writeByte(char byte);
+
+    void writeBit(char bit);
+
     public:
     typedef struct {
         char red;
