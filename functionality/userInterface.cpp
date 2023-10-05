@@ -28,8 +28,8 @@ int UserInterface::getMirrorSelected() {
     for (int i = 0; i < 6; i++) {
         if (stateOfMirrors[i] == true) {
             //Only Going through mirrors that are not disabled
-            hardware.addressableLEDs.set; // turn the LED of the mirror on
-            
+            hardware.addressableLEDs.set(); // turn the LED of the mirror on
+            //
         }
     }
     return 0;
@@ -45,6 +45,7 @@ int UserInterface::getMirrorRotation() {
     for (loop through the rotation of LeftKnob)
     if (right knob is turned by one tick) {
         mirrorAngles[indexofMirror]++;
+        hardware.leftKnob.read(); // int number of ticks negative to positive thousand
     }
     return 0;
 }
