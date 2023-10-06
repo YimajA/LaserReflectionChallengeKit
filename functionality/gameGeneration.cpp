@@ -1,7 +1,7 @@
 #include "gameGeneration.h"
 #include<cstdlib>
 #include<iostream>
-GameGenerator::GameConfig initGame;
+// GameGenerator::GameConfig initGame;
 // Assuming the initial position (0 degree) of the mirrors is the result
 // When game starts, some mirrors will randomly move to random angles
 GameGenerator::GameConfig GameGenerator::generateGame() {
@@ -10,23 +10,25 @@ GameGenerator::GameConfig GameGenerator::generateGame() {
 	srand((unsigned) time(NULL));
     int numMirrorsDisabled = rand() % 2;
 
-    GameConfig initial = new GameConfig(); 
+    GameGenerator::GameConfig initGame;
+    // GameConfig initial = new GameConfig(); 
+    // initGame.generateGame();
 
     //un-disable all mirrors
     for (int i = 0; i < 6; i++) {
-        GameConfig::mirrors[i].disabled = false;
+        initGame.mirrors[i].disabled = false;
     }
 
     // randomly select no more than 2 mirrors
     for (int i = 0; i < numMirrorsDisabled; i++) {
         int mirrorSelect = rand() % 6;
-        GameConfig::mirrors[mirrorSelect].disabled = true;
+        initGame.mirrors[mirrorSelect].disabled = true;
     }
 
     for (int i = 0; i < 6; i++) {
-        if (GameConfig::mirrors[i].disabled == false) {
+        if (initGame.mirrors[i].disabled == false) {
             int random = rand() % 360;
-            GameConfig::mirrors[i].startingPosition = random;
+            initGame.mirrors[i].startingPosition = random;
         }
     }
     return {};

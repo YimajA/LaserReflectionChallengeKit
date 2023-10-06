@@ -49,5 +49,5 @@ int QuadratureEncoder::read() {
     // Update the previous state for the next reading
     pos_before = pos;
 
-    return ticks;
+    return ticks/4;
 }
