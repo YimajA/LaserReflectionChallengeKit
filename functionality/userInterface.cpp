@@ -19,8 +19,6 @@ int UserInterface::mirrorAngles[6] = {0, 0, 0, 0, 0, 0};
 // to know whether to allow selection of a given mirror
 bool UserInterface::disabledMirrors[6] = {false, false, false, false, false, false};
 
-bool UserInterface::stateOfMirrors[6] = {false, false, false, false, false, false}; //added
-
 // the index of the mirror, from 0 to 5
 int UserInterface::getMirrorSelected() {
     // Todo: read from the left encoder and determine which mirror is selected
@@ -34,6 +32,13 @@ int UserInterface::getMirrorSelected() {
     }
     return 0;
 
+    for (int j = 0; j < 360; j++) {
+        if(disabledMirrors[j] == false) { // skip over disabled mirrors
+            continue;
+        } else {
+            hardware.addressableLEDs.set(white, 1);
+        }
+    }
 
 }
 
@@ -47,6 +52,11 @@ int UserInterface::getMirrorRotation() {
         mirrorAngles[indexofMirror]++;
         hardware.leftKnob.read(); // int number of ticks negative to positive thousand
     }
+    //
+    if(hardware.leftKnob.read()) {
+        mirrorAngles[i]++;
+    }
+    
     return 0;
 }
 
@@ -58,16 +68,15 @@ void UserInterface::setMirrorAngle(int degrees, int index) {
 }
 
 bool UserInterface::isButtonPushed() {
-    // This was done for you as an example of how to interface with the hardware
     return hardware.arcadeButton.read();
 }
 
 void UserInterface::setWaitingToStart(bool isWaitingToStart) {
-    // Todo: update the arcade button as appropriate
-    hardware.arcadeButton // turn on Arcade Button
+    // Todo: update the arcade button as appropriate 
+    hardware.arcadeButton.setLED(1); // turn on Arcade Button
 }
 
-void UserInterface::setMirrorDisabled(int index, bool isDisabled) {
+void UserInterface::setMirrorDisabled(int index, bool isDisabled) { // True indicates Disabled Mirror
     // Todo: update disabledMirrors. Any mirror that is disabled should not be allowed
     //       for selection and it should "skip over" the mirror when reporting which is
     //       selected.
