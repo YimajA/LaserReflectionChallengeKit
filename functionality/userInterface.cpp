@@ -19,9 +19,13 @@ int UserInterface::mirrorAngles[6] = {0, 0, 0, 0, 0, 0};
 // to know whether to allow selection of a given mirror
 bool UserInterface::disabledMirrors[6] = {false, false, false, false, false, false};
 
+int selectedMirror = 0;
+int lastKnobRead;
+
 // the index of the mirror, from 0 to 5
 int UserInterface::getMirrorSelected() {
     // Todo: read from the left encoder and determine which mirror is selected
+    /*
     int originalRead = hardware.leftKnob.read();
     for (int i = originalRead; i < originalRead + 6; i++) {
         if(disabledMirrors[i] == false) { // skip over disabled mirrors
@@ -32,12 +36,22 @@ int UserInterface::getMirrorSelected() {
         return i;
     }
     return i;
+    */
+   for (int i = selectedMirror; i < selectedMirror + 6; i++) {
+            if (!disabledMirrors[i % 6]) {
+                return i % 6;
+                
+            }
+        }
+        // All mirrors are disabled; return a default value or handle the situation
+        return -1;
 }
 
 // degrees
 int UserInterface::getMirrorRotation() {
     // Todo: read from the right encoder and determine the angle of the selected mirror
     //Rotary Encoder
+    /*
    int rKnobRead = hardware.rightKnob.read(); // .read returns the number of ticks ranging from -1000 -> +1000
    int currIdx = 0;
    for (int i = currIdx; i < 6; i++) { //Loop through all each Mirror Index
@@ -47,6 +61,15 @@ int UserInterface::getMirrorRotation() {
    }
    
    return mirrorAngles[currIdx]; // return the angle of the Mirror
+   */
+    int rKnobRead = hardware.rightKnob.read();
+        mirrorAngles[selectedMirror] += rKnobRead - lastKnobRead;
+        lastKnobRead = rKnobRead;
+        
+        // Ensure the angle stays within [0, 180] degrees
+        mirrorAngles[selectedMirror] = std::max(0, std::min(180, mirrorAngles[selectedMirror]));
+
+        return mirrorAngles[selectedMirror];
 
 }
 
