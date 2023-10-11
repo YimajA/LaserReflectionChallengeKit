@@ -22,42 +22,32 @@ bool UserInterface::disabledMirrors[6] = {false, false, false, false, false, fal
 // the index of the mirror, from 0 to 5
 int UserInterface::getMirrorSelected() {
     // Todo: read from the left encoder and determine which mirror is selected
-    hardware.leftKnob.read();
-    for (int i = 0; i < 6; i++) {
-        if (stateOfMirrors[i] == true) {
-            //Only Going through mirrors that are not disabled
-            hardware.addressableLEDs.set(); // turn the LED of the mirror on
-            //
-        }
-    }
-    return 0;
-
-    for (int j = 0; j < 360; j++) {
-        if(disabledMirrors[j] == false) { // skip over disabled mirrors
+    int originalRead = hardware.leftKnob.read();
+    for (int i = originalRead; i < originalRead + 6; i++) {
+        if(disabledMirrors[i] == false) { // skip over disabled mirrors
             continue;
         } else {
-            hardware.addressableLEDs.set(white, 1);
+           // hardware.addressableLEDs.set(white, i); // 255 255 255
         }
+        return i;
     }
-
+    return i;
 }
 
 // degrees
 int UserInterface::getMirrorRotation() {
     // Todo: read from the right encoder and determine the angle of the selected mirror
     //Rotary Encoder
-    int indexofMirror
-    for (loop through the rotation of LeftKnob)
-    if (right knob is turned by one tick) {
-        mirrorAngles[indexofMirror]++;
-        hardware.leftKnob.read(); // int number of ticks negative to positive thousand
-    }
-    //
-    if(hardware.leftKnob.read()) {
-        mirrorAngles[i]++;
-    }
-    
-    return 0;
+   int rKnobRead = hardware.rightKnob.read(); // .read returns the number of ticks ranging from -1000 -> +1000
+   int currIdx = 0;
+   for (int i = currIdx; i < 6; i++) { //Loop through all each Mirror Index
+        if (rKnobRead == rKnobRead + 1) { // if the Knob was turned
+            mirrorAngles[currIdx]++; // Increase the angle of the selected mirror by 1
+        }
+   }
+   
+   return mirrorAngles[currIdx]; // return the angle of the Mirror
+
 }
 
 // of the currently selected mirror, only needed if the position changes
