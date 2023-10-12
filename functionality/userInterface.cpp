@@ -1,5 +1,6 @@
 #include "userInterface.h"
 #include "hardware.h"
+
 //Yimaj Ahmed
 
 // the value from the encoder that corresponds to mirror zero
@@ -19,57 +20,46 @@ int UserInterface::mirrorAngles[6] = {0, 0, 0, 0, 0, 0};
 // to know whether to allow selection of a given mirror
 bool UserInterface::disabledMirrors[6] = {false, false, false, false, false, false};
 
-int selectedMirror = 0;
+int rKnobRead;
 int lastKnobRead;
-
+int selectedMirror = 0;
 // the index of the mirror, from 0 to 5
 int UserInterface::getMirrorSelected() {
-    // Todo: read from the left encoder and determine which mirror is selected
-    /*
-    int originalRead = hardware.leftKnob.read();
-    for (int i = originalRead; i < originalRead + 6; i++) {
-        if(disabledMirrors[i] == false) { // skip over disabled mirrors
-            continue;
-        } else {
-           // hardware.addressableLEDs.set(white, i); // 255 255 255
-        }
-        return i;
+
+   int encoderValue = hardware.leftKnob.read();
+    
+    // Calculate the selected mirror based on the encoder value
+    selectedMirror = (encoderValue - encoderMirrorZero) % 6;
+    
+    // Handle the case when it wraps around
+    if (selectedMirror < 0) {
+        selectedMirror += 6;
     }
-    return i;
-    */
-   for (int i = selectedMirror; i < selectedMirror + 6; i++) {
-            if (!disabledMirrors[i % 6]) {
-                return i % 6;
-                
-            }
-        }
-        // All mirrors are disabled; return a default value or handle the situation
-        return -1;
+    
+    // Check for disabled mirrors and skip them
+    while (disabledMirrors[selectedMirror]) {
+        selectedMirror = (selectedMirror + 1) % 6;
+    }
+    
+    return selectedMirror;
 }
 
 // degrees
 int UserInterface::getMirrorRotation() {
-    // Todo: read from the right encoder and determine the angle of the selected mirror
-    //Rotary Encoder
-    /*
-   int rKnobRead = hardware.rightKnob.read(); // .read returns the number of ticks ranging from -1000 -> +1000
-   int currIdx = 0;
-   for (int i = currIdx; i < 6; i++) { //Loop through all each Mirror Index
-        if (rKnobRead == rKnobRead + 1) { // if the Knob was turned
-            mirrorAngles[currIdx]++; // Increase the angle of the selected mirror by 1
-        }
-   }
-   
-   return mirrorAngles[currIdx]; // return the angle of the Mirror
-   */
     int rKnobRead = hardware.rightKnob.read();
-        mirrorAngles[selectedMirror] += rKnobRead - lastKnobRead;
-        lastKnobRead = rKnobRead;
-        
-        // Ensure the angle stays within [0, 180] degrees
-        mirrorAngles[selectedMirror] = std::max(0, std::min(180, mirrorAngles[selectedMirror]));
-
-        return mirrorAngles[selectedMirror];
+    
+    // Calculate the angle based on the knob and update the selected mirror's angle
+    mirrorAngles[selectedMirror] += (rKnobRead - lastKnobRead);
+    lastKnobRead = rKnobRead;
+    
+    // Ensure the angle stays within [0, 180] degrees
+    if (mirrorAngles[selectedMirror] < 0) {
+        mirrorAngles[selectedMirror] = 0;
+    } else if (mirrorAngles[selectedMirror] > 180) {
+        mirrorAngles[selectedMirror] = 180;
+    }
+    
+    return mirrorAngles[selectedMirror];
 
 }
 
@@ -86,12 +76,24 @@ bool UserInterface::isButtonPushed() {
 
 void UserInterface::setWaitingToStart(bool isWaitingToStart) {
     // Todo: update the arcade button as appropriate 
-    hardware.arcadeButton.setLED(1); // turn on Arcade Button
+    hardware.arcadeButton.setLED(isWaitingToStart ? 1 : 0); // turn on Arcade Button
 }
 
 void UserInterface::setMirrorDisabled(int index, bool isDisabled) { // True indicates Disabled Mirror
     // Todo: update disabledMirrors. Any mirror that is disabled should not be allowed
     //       for selection and it should "skip over" the mirror when reporting which is
     //       selected.
-    disabledMirrors[index] = true;
+
+    // Update the disabledMirrors array
+    disabledMirrors[index] = isDisabled;
+    
+    // If the currently selected mirror is disabled, find the next available mirror
+    if (index == selectedMirror && isDisabled) {
+        for (int i = (selectedMirror + 1) % 6; i != selectedMirror; i = (i + 1) % 6) {
+            if (!disabledMirrors[i]) {
+                selectedMirror = i;
+                break;
+            }
+        }
+    }
 }

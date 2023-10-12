@@ -8,6 +8,12 @@
 class MirrorModule {
     private:
     // todo - create attributes of the class like Servo, LEDs, indexOfLed, etc.
+    Servo* servo;
+    AddressableLEDStrip* leds;
+    int LEDIndex;
+    mode;
+    int angle;
+    updateLED();
 
     public:
     enum Mode {
