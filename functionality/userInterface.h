@@ -32,7 +32,7 @@ class UserInterface {
 
     // of the currently selected mirror, only needed if the position changes
     // by some other means in code
-    static void setMirrorAngle(int degrees);
+    static void setMirrorAngle(int degrees, int index);
 
     static bool isButtonPushed();
 
