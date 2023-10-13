@@ -5,7 +5,7 @@
 
 #undef __ARM_FP
 #include "mbed.h"
-#include "libraries/asyncIO/analogOutAsync.cpp"
+#include "libraries/asyncIO/analogOutAsync.hpp"
 
 class Speaker {
     private:
