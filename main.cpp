@@ -1,5 +1,7 @@
 #undef __ARM_FP
 #include "mbed.h"
+#include "hardware.h"
+#include "userInterface.h"
 
 
 // main() runs in its own thread in the OS
@@ -7,7 +9,9 @@ int main()
 {
     
     //initialize the hardware
+    _Hardware hardware;
 
+    UserInterface uI1 = 
 
     // End Setup
 
