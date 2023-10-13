@@ -6,6 +6,12 @@
 #include "hardware.h"
 
 class MirrorModule {
+    public:
+    enum Mode {
+        DEFAULT,
+        DISABLED,
+        SELECTED
+    };
     private:
     // todo - create attributes of the class like Servo, LEDs, indexOfLed, etc.
     Servo* servo;
@@ -13,15 +19,9 @@ class MirrorModule {
     int LEDIndex;
     Mode mode;
     int angle;
-    updateLED();
+
 
     public:
-    enum Mode {
-        DEFAULT,
-        DISABLED,
-        SELECTED
-    };
-
     MirrorModule(Servo* servo, AddressableLEDStrip* leds, int LEDIndex);
 
     void setMode(Mode mode);

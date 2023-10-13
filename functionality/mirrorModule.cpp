@@ -7,13 +7,11 @@ MirrorModule::MirrorModule(Servo* servo, AddressableLEDStrip* leds, int LEDIndex
     this->LEDIndex = LEDIndex;
     this->mode = Mode::DEFAULT; // Set the default mode when the mirror is created.
     this->angle = 0; // Initialize angle to 0 degrees.
-    this->updateLED(); // Initialize LED to reflect the default mode.
 }
 
 void MirrorModule::setMode(Mode mode) {
     // Todo
     this->mode = mode;
-    this->updateLED(); // Update the LED to reflect the new mode.
 }
 
 MirrorModule::Mode MirrorModule::getMode() {
