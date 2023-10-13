@@ -5,26 +5,26 @@
 
 #undef __ARM_FP
 #include "mbed.h"
+#include "neostrip.h"
 
 class AddressableLEDStrip {
     private:
-    DigitalOut dout;
+    NeoStrip strip;
     int numberOfLEDs;
-
-    void writeByte(char byte);
-
-    void writeBit(char bit);
 
     public:
     typedef struct {
-        char red;
-        char green;
         char blue;
+        char green;
+        char red;
+        char _unused;
     } Color;
 
     AddressableLEDStrip(PinName pin, int numberOfLEDs);
 
     void set(Color* colors, int count);
+
+    void setLED(int index, Color color);
 };
 
 #endif // ADDRESSABLE_LED_INCLUDED
