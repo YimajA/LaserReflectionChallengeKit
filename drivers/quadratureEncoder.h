@@ -10,10 +10,12 @@ class QuadratureEncoder {
     private:
     DigitalIn a;
     DigitalIn b;
+    int convertGrayToBinary ();
 
     public:
     QuadratureEncoder(PinName A, PinName B);
 
+    // return how many 'ticks' the encoder has moved so far
     int read();
 };
 
