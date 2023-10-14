@@ -8,7 +8,7 @@ QuadratureEncoder::QuadratureEncoder(PinName A, PinName B): a(A), b(B) {
     // add pullups if necessary
     a.mode(PullUp);
     b.mode(PullUp);
-    wait(0.001);
+    wait_us(1000);
     ticks = 0; pos = 0; diff = 0; pos_before = 0;
 }
 
@@ -45,7 +45,7 @@ int QuadratureEncoder::read() {
     } else if (((diff == 1) || (diff == -3))) {
         pos_before = pos;
         ticks--;
-
+    }
     // Update the previous state for the next reading
     pos_before = pos;
 
