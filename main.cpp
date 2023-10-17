@@ -1,23 +1,13 @@
-//#undef __ARM_FP
-//#include "mbed.h"
-#include "functionality/gameGeneration.h"
+#undef __ARM_FP
+// #include "mbed.h"
+//  #include "gameGeneration.h"
 #include <cstdio>
-
 // main() runs in its own thread in the OS
 int main()
 {
+    printf("hello from Tamtest");
+    GameGenerator::GameConfig newGame;
+    newGame.generateGame();
     
-
-    printf("hello from tam test!");
-
-    // End Setup
-
-    // while (true) {
-    //     // Start Loop
-        
-        
-
-    //     // End Loop
-    // }
 }
 

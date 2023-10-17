@@ -24,8 +24,13 @@ class _Hardware {
     QuadratureEncoder leftKnob;
     QuadratureEncoder rightKnob;
 
+<<<<<<< Updated upstream
     inline _Hardware(): addressableLEDs(p17, 6), 
                 arcadeButton(p15, p16), 
+=======
+    inline _Hardware(): addressableLEDs(p13, 6), 
+                arcadeButton(p11, p12), 
+>>>>>>> Stashed changes
                 speaker(p18),
                 laser(p14),
                 leftKnob(p8, p9),
