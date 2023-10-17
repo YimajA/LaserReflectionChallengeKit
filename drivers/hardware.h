@@ -24,7 +24,7 @@ class _Hardware {
     QuadratureEncoder leftKnob;
     QuadratureEncoder rightKnob;
 
-    inline _Hardware(): addressableLEDs(p17, 6), 
+    inline _Hardware(): addressableLEDs(p13, 6), 
                 arcadeButton(p11, p12), 
                 speaker(p18),
                 laser(p14),
