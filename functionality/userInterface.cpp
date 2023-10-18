@@ -22,7 +22,7 @@ bool UserInterface::disabledMirrors[6] = {false, false, false, false, false, fal
 
 int rKnobRead;
 int lastKnobRead;
-int selectedMirror = 0;
+int selectedMirror = 0; // ask if placement is wrong
 // the index of the mirror, from 0 to 5
 int UserInterface::getMirrorSelected() {
 
@@ -46,7 +46,8 @@ int UserInterface::getMirrorSelected() {
 
 // degrees
 int UserInterface::getMirrorRotation() {
-    int rKnobRead = hardware.rightKnob.read();
+    
+    rKnobRead = hardware.rightKnob.read();
     
     // Calculate the angle based on the knob and update the selected mirror's angle
     mirrorAngles[selectedMirror] += (rKnobRead - lastKnobRead);

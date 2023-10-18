@@ -29,11 +29,15 @@ int main()
         // Start Loop
         
         // Read user input and test the UserInterface functions
+        int encoderLVal = hardware.leftKnob.read();
+        int encoderRVal = hardware.rightKnob.read();
         int selectedMirror = UserInterface::getMirrorSelected();
         int mirrorRotation = UserInterface::getMirrorRotation();
         bool buttonPushed = UserInterface::isButtonPushed();
       
         // Print out the selected mirror and rotation for testing
+        printf("Left Knob Reads: %d\n", encoderLVal);
+        printf("Right Knob Reads: %d\n", encoderRVal);
         printf("Selected Mirror: %d\n", selectedMirror);
         printf("Mirror Rotation: %d degrees\n", mirrorRotation);
         printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
