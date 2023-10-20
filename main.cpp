@@ -22,23 +22,31 @@ int main()
 
      UserInterface uI1;
 
+    int lastSelected = UserInterface::getMirrorSelected();
+
     // End Setup
 
     //Yimaj
     while (true) {
         // Start Loop
-        
+
         // Read user input and test the UserInterface functions
         int selectedMirror = UserInterface::getMirrorSelected();
         int mirrorRotation = UserInterface::getMirrorRotation();
         bool buttonPushed = UserInterface::isButtonPushed();
-      
+        
+        mirrors[selectedMirror].setAngle(mirrorRotation);
+        mirrors[selectedMirror].setMode(MirrorModule::SELECTED);
+        if (lastSelected != selectedMirror) {
+            mirrors[selectedMirror].setMode(MirrorModule::DEFAULT);
+        }
         // Print out the selected mirror and rotation for testing
         printf("Selected Mirror: %d\n", selectedMirror);
         printf("Mirror Rotation: %d degrees\n", mirrorRotation);
         printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
         wait_us(1000000);
         
+        lastSelected = selectedMirror;
         // End Loop
     }
     float phases[] = {0, 60, 120, 180, 240, 300};

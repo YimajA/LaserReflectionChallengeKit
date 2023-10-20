@@ -41,6 +41,8 @@ int UserInterface::getMirrorSelected() {
         selectedMirror = (selectedMirror + 1) % 6;
     }
     
+    encoderMirrorAngleZero = (hardware.rightKnob.read() - mirrorAngles[selectedMirror]);
+
     return selectedMirror;
 }
 
@@ -49,14 +51,13 @@ int UserInterface::getMirrorRotation() {
     int rKnobRead = hardware.rightKnob.read();
     
     // Calculate the angle based on the knob and update the selected mirror's angle
-    mirrorAngles[selectedMirror] += (rKnobRead - lastKnobRead);
-    lastKnobRead = rKnobRead;
+    mirrorAngles[selectedMirror] += (rKnobRead - encoderMirrorAngleZero);
     
-    // Ensure the angle stays within [0, 180] degrees
-    if (mirrorAngles[selectedMirror] < 0) {
-        mirrorAngles[selectedMirror] = 0;
-    } else if (mirrorAngles[selectedMirror] > 180) {
-        mirrorAngles[selectedMirror] = 180;
+    // Ensure the angle stays within [-90, 90] degrees
+    if (mirrorAngles[selectedMirror] < -90) {
+        mirrorAngles[selectedMirror] = -90;
+    } else if (mirrorAngles[selectedMirror] > 90) {
+        mirrorAngles[selectedMirror] = 90;
     }
     
     return mirrorAngles[selectedMirror];
@@ -67,7 +68,14 @@ int UserInterface::getMirrorRotation() {
 // by some other means in code
 void UserInterface::setMirrorAngle(int degrees, int index) {
     // Todo: set the angle of the selected mirror and update encoderMirrorAngleZero as needed
+
+    
+    if (selectedMirror == index) // if Selected Mirror changes
+    {
+        encoderMirrorAngleZero = (encoderMirrorAngleZero - (degrees - mirrorAngles[index]));
+    }
     mirrorAngles[index] = degrees;
+        
 }
 
 bool UserInterface::isButtonPushed() {
