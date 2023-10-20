@@ -16,7 +16,7 @@ void MirrorModule::setMode(Mode mode) {
     } else if(mode == DISABLED) {
         leds->setLED(LEDIndex, {0, 0, 255});
     } else if(mode == SELECTED) {
-        leds->setLED(LEDIndex, {0, 255, 0});
+        leds->setLED(LEDIndex, {255, 0, 0});
     }
 }
 

@@ -21,6 +21,7 @@ int main()
     // Start Setup
     AddressableLEDStrip::Color colors[6];
 
+
      UserInterface uI1;
 
     int lastSelected = UserInterface::getMirrorSelected();
@@ -42,7 +43,7 @@ int main()
          mirrors[selectedMirror].setAngle(mirrorRotation);
          mirrors[selectedMirror].setMode(MirrorModule::SELECTED);
          if (lastSelected != selectedMirror) {
-             mirrors[selectedMirror].setMode(MirrorModule::DEFAULT);
+             mirrors[lastSelected].setMode(MirrorModule::DEFAULT);
          }
         // Print out the selected mirror and rotation for testing
         
