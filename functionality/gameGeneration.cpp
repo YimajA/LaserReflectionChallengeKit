@@ -1,4 +1,5 @@
 #include "gameGeneration.h"
+#include <cstdio>
 #include<cstdlib>
 #include<iostream>
 GameGenerator::GameConfig GameGenerator::generateGame() {
@@ -13,7 +14,7 @@ GameGenerator::GameConfig GameGenerator::generateGame() {
     
     // Providing a seed value
 	srand((unsigned) time(NULL));
-    int numMirrorsDisabled = rand() % 2;
+    int numMirrorsDisabled = rand() % 2 + 1; printf("Number of disabled mirrors: %i\n", numMirrorsDisabled);
     int chosenCombination = rand() % 5; //choose winning combination
 
     GameGenerator::GameConfig initGame;
@@ -29,15 +30,17 @@ GameGenerator::GameConfig GameGenerator::generateGame() {
     for (int i = 0; i < numMirrorsDisabled; i++) {
         int mirrorSelect = rand() % 6;
         initGame.mirrors[mirrorSelect].disabled = true;
+        printf("Disabled mirror: %i\n", mirrorSelect);
+        // printf("Status of selected mirror: %d\n", initGame.mirrors[mirrorSelect].disabled);
     }
-
+    printf("After randomization: \n");
     // randomly change values of non-disabled mirrors
     for (int i = 0; i < 6; i++) {
         if (initGame.mirrors[i].disabled == false) {
             int random = rand() % 180;
             initGame.mirrors[i].startingPosition = random;
         }
-        printf("Mirror no. %i: %i", i, initGame.mirrors[i].startingPosition);
+        printf("Mirror no. %i: %i \n", i, initGame.mirrors[i].startingPosition);
     }
     return {};
 }
