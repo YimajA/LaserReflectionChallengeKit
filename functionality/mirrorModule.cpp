@@ -12,6 +12,13 @@ MirrorModule::MirrorModule(Servo* servo, AddressableLEDStrip* leds, int LEDIndex
 void MirrorModule::setMode(Mode mode) {
     // Todo
     this->mode = mode;
+    if (mode == DEFAULT) {
+        leds->setLED(LEDIndex, {0, 0, 0});
+    } else if(mode == DISABLED) {
+        leds->setLED(LEDIndex, {0, 0, 255});
+    } else if(mode == SELECTED) {
+        leds->setLED(LEDIndex, {0, 255, 0});
+    }
 }
 
 MirrorModule::Mode MirrorModule::getMode() {
@@ -23,6 +30,7 @@ void MirrorModule::setAngle(int degrees) {
     // Ensure that degrees stay within the 0-180 range
     degrees = std::max(0, std::min(180, degrees));
     this->angle = degrees;
+    this->servo->write((((float)degrees)/180) + 0.5);
 }
 
 // gets the angle in degrees
