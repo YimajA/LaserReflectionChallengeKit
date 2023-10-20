@@ -25,8 +25,8 @@ MirrorModule::Mode MirrorModule::getMode() {
 }
 
 void MirrorModule::setAngle(int degrees) {
-    // Ensure that degrees stay within the 0-180 range
-    degrees = std::max(0, std::min(180, degrees));
+    // Ensure that degrees stay within the -90->90 range
+    degrees = std::max(-90, std::min(90, degrees));
     this->angle = degrees;
     this->servo->write((((float)degrees)/180) + 0.5);
 }

@@ -1,9 +1,6 @@
 #include "quadratureEncoder.h"
 #include "mbed.h"
 
-int ticks;
-int pos; int pos_before;
-int diff;
 QuadratureEncoder::QuadratureEncoder(PinName A, PinName B): a(A), b(B) {
     // add pullups if necessary
     a.mode(PullUp);
@@ -49,5 +46,5 @@ int QuadratureEncoder::read() {
     // Update the previous state for the next reading
     pos_before = pos;
 
-    return ticks;
+    return ticks/4;
 }

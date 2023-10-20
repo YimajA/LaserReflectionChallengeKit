@@ -10,6 +10,12 @@ class QuadratureEncoder {
     private:
     DigitalIn a;
     DigitalIn b;
+
+    int ticks;
+    int pos;
+    int pos_before;
+    int diff;
+
     int convertGrayToBinary ();
 
     public:

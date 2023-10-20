@@ -7,7 +7,8 @@
 // main() runs in its own thread in the OS
 int main()
 {
-    
+    Timer timer;
+    timer.start();
     //initialize the hardware
     MirrorModule mirrors[6] = {MirrorModule(&hardware.servos[0], &hardware.addressableLEDs, 0),
                                MirrorModule(&hardware.servos[1], &hardware.addressableLEDs, 1),
@@ -29,22 +30,31 @@ int main()
     //Yimaj
     while (true) {
         // Start Loop
+        wait_us(500);
 
         // Read user input and test the UserInterface functions
         int selectedMirror = UserInterface::getMirrorSelected();
         int mirrorRotation = UserInterface::getMirrorRotation();
         bool buttonPushed = UserInterface::isButtonPushed();
+        int leftEncoderRead = hardware.leftKnob.read();
+        int rightEncoderRead = hardware.rightKnob.read();
         
-        mirrors[selectedMirror].setAngle(mirrorRotation);
-        mirrors[selectedMirror].setMode(MirrorModule::SELECTED);
-        if (lastSelected != selectedMirror) {
-            mirrors[selectedMirror].setMode(MirrorModule::DEFAULT);
-        }
+         mirrors[selectedMirror].setAngle(mirrorRotation);
+         mirrors[selectedMirror].setMode(MirrorModule::SELECTED);
+         if (lastSelected != selectedMirror) {
+             mirrors[selectedMirror].setMode(MirrorModule::DEFAULT);
+         }
         // Print out the selected mirror and rotation for testing
-        printf("Selected Mirror: %d\n", selectedMirror);
-        printf("Mirror Rotation: %d degrees\n", mirrorRotation);
-        printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
-        wait_us(1000000);
+        
+        
+        if (timer.elapsed_time().count() > 1000000) {
+            timer.reset();
+            printf("Left Encoder Reads: %d\n", leftEncoderRead);
+            printf("Right Encoder Reads: %d\n", rightEncoderRead);
+            printf("Selected Mirror: %d\n", selectedMirror);
+            printf("Mirror Rotation: %d degrees\n", mirrorRotation);
+            printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
+        }
         
         lastSelected = selectedMirror;
         // End Loop
