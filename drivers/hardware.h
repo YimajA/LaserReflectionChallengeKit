@@ -31,7 +31,7 @@ class _Hardware {
                 leftKnob(p5, p6),
                 rightKnob(p9, p10),
                 lightSensor(p20),
-                servos{Servo(p21), Servo(p22), Servo(p23), Servo(p24), Servo(p25), Servo(p26)} {
+                servos{Servo(p24), Servo(p23), Servo(p25), Servo(p21), Servo(p26), Servo(p22)} {
         servos[0].calibrate(0.001, 90);
         servos[1].calibrate(0.001, 90);
         servos[2].calibrate(0.001, 90);

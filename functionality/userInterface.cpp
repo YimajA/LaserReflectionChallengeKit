@@ -27,7 +27,7 @@ int selectedMirror = 0;
 int UserInterface::getMirrorSelected() {
 
    int encoderValue = hardware.leftKnob.read();
-    int prevMirror = (encoderValue - encoderMirrorZero) % 6;
+    int prevMirror = selectedMirror;
     // Calculate the selected mirror based on the encoder value
     selectedMirror = (encoderValue - encoderMirrorZero) % 6;
     
@@ -58,11 +58,13 @@ int UserInterface::getMirrorRotation() {
     // Ensure the angle stays within [-90, 90] degrees
     if (mirrorAngles[selectedMirror] < -90) {
         mirrorAngles[selectedMirror] = -90;
+        encoderMirrorAngleZero = (hardware.rightKnob.read() - mirrorAngles[selectedMirror]);
     } else if (mirrorAngles[selectedMirror] > 90) {
         mirrorAngles[selectedMirror] = 90;
+        encoderMirrorAngleZero = (hardware.rightKnob.read() - mirrorAngles[selectedMirror]);
     }
     
-    return mirrorAngles[selectedMirror];
+    return -mirrorAngles[selectedMirror];
 
 }
 

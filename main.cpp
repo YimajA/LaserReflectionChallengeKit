@@ -1,3 +1,4 @@
+#include <ratio>
 #undef __ARM_FP
 #include "mbed.h"
 #include "hardware.h"
@@ -26,6 +27,7 @@ int main()
 
     int lastSelected = UserInterface::getMirrorSelected();
 
+    hardware.laser.write(1);
     // End Setup
 
     //Yimaj
