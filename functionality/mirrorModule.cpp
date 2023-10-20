@@ -10,7 +10,6 @@ MirrorModule::MirrorModule(Servo* servo, AddressableLEDStrip* leds, int LEDIndex
 }
 
 void MirrorModule::setMode(Mode mode) {
-    // Todo
     this->mode = mode;
     if (mode == DEFAULT) {
         leds->setLED(LEDIndex, {0, 0, 0});
@@ -22,7 +21,6 @@ void MirrorModule::setMode(Mode mode) {
 }
 
 MirrorModule::Mode MirrorModule::getMode() {
-    // Todo
     return this->mode;
 }
 
@@ -35,6 +33,5 @@ void MirrorModule::setAngle(int degrees) {
 
 // gets the angle in degrees
 int MirrorModule::getAngle() {
-    // Todo
     return this->angle;
 }
