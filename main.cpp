@@ -23,6 +23,8 @@ int main()
      UserInterface uI1;
 
     // End Setup
+    Timer t;
+    t.start();
 
     //Yimaj
     while (true) {
@@ -36,12 +38,16 @@ int main()
         bool buttonPushed = UserInterface::isButtonPushed();
       
         // Print out the selected mirror and rotation for testing
-        printf("Left Knob Reads: %d\n", encoderLVal);
-        printf("Right Knob Reads: %d\n", encoderRVal);
-        printf("Selected Mirror: %d\n", selectedMirror);
-        printf("Mirror Rotation: %d degrees\n", mirrorRotation);
-        printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
-        wait_us(1000000);
+        if (t.elapsed_time().count() > 1000000) {
+            t.reset();
+
+            printf("Left Knob Reads: %d\n", encoderLVal);
+            printf("Right Knob Reads: %d\n", encoderRVal);
+            printf("Selected Mirror: %d\n", selectedMirror);
+            printf("Mirror Rotation: %d degrees\n", mirrorRotation);
+            printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
+        }
+
         
         // End Loop
     }
