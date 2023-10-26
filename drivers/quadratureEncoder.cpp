@@ -8,6 +8,7 @@ QuadratureEncoder::QuadratureEncoder(PinName A, PinName B): a(A), b(B) {
     // add pullups if necessary
     a.mode(PullUp);
     b.mode(PullUp);
+
     ticks = 0; pos = 0; diff = 0; pos_before = 0;
 }
 

@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-//#include "mbed.h"
-=======
-//  #include "mbed.h"
->>>>>>> Stashed changes
+
+#include "mbed.h"
 
 #ifndef GAME_GENERATION_INCLUDED
 #define GAME_GENERATION_INCLUDED

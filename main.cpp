@@ -1,13 +1,118 @@
+#include <ratio>
 #undef __ARM_FP
-// #include "mbed.h"
- #include "functionality/gameGeneration.h"
-#include <cstdio>
+#include "mbed.h"
+#include "hardware.h"
+#include "userInterface.h"
+#include "mirrorModule.h"
+
 // main() runs in its own thread in the OS
 int main()
 {
-    printf("start\n");
-    GameGenerator newGame;
-    newGame.generateGame();
-    
+    Timer timer;
+    timer.start();
+    //initialize the hardware
+    MirrorModule mirrors[6] = {MirrorModule(&hardware.servos[0], &hardware.addressableLEDs, 0),
+                               MirrorModule(&hardware.servos[1], &hardware.addressableLEDs, 1),
+                               MirrorModule(&hardware.servos[2], &hardware.addressableLEDs, 2),
+                               MirrorModule(&hardware.servos[3], &hardware.addressableLEDs, 3),
+                               MirrorModule(&hardware.servos[4], &hardware.addressableLEDs, 4),
+                               MirrorModule(&hardware.servos[5], &hardware.addressableLEDs, 5),
+    }; 
+
+    // Start Setup
+    AddressableLEDStrip::Color colors[6];
+
+
+     UserInterface uI1;
+
+    int lastSelected = UserInterface::getMirrorSelected();
+
+    hardware.laser.write(1);
+    // End Setup
+
+    //Yimaj
+    while (true) {
+        // Start Loop
+        wait_us(500);
+
+        // Read user input and test the UserInterface functions
+        int selectedMirror = UserInterface::getMirrorSelected();
+        int mirrorRotation = UserInterface::getMirrorRotation();
+        bool buttonPushed = UserInterface::isButtonPushed();
+        int leftEncoderRead = hardware.leftKnob.read();
+        int rightEncoderRead = hardware.rightKnob.read();
+        
+         mirrors[selectedMirror].setAngle(mirrorRotation);
+         mirrors[selectedMirror].setMode(MirrorModule::SELECTED);
+         if (lastSelected != selectedMirror) {
+             mirrors[lastSelected].setMode(MirrorModule::DEFAULT);
+         }
+        // Print out the selected mirror and rotation for testing
+        
+        
+        if (timer.elapsed_time().count() > 1000000) {
+            timer.reset();
+            printf("Left Encoder Reads: %d\n", leftEncoderRead);
+            printf("Right Encoder Reads: %d\n", rightEncoderRead);
+            printf("Selected Mirror: %d\n", selectedMirror);
+            printf("Mirror Rotation: %d degrees\n", mirrorRotation);
+            printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
+        }
+        
+        lastSelected = selectedMirror;
+        // End Loop
+    }
+    float phases[] = {0, 60, 120, 180, 240, 300};
+    while (true) {
+        // Start Loop
+        
+        for (int led = 0; 6 > led; led++) {
+            float c = 1;
+            float x = c * (1 - abs(fmodf(phases[led] / 60.0f, 2.0f) - 1));
+            float rp, gp, bp;
+
+            float h = phases[led];
+
+            if (h < 60) {
+                rp = c;
+                gp = x;
+                bp = 0;
+            } else if (h < 120) {
+                rp = x;
+                gp = c;
+                bp = 0;
+            } else if (h < 180) {
+                rp = 0;
+                gp = c;
+                bp = x;
+            } else if (h < 240) {
+                rp = 0;
+                gp = x;
+                bp = c;
+            } else if (h < 300) {
+                rp = x;
+                gp = 0;
+                bp = c;
+            } else {
+                rp = c;
+                gp = 0;
+                bp = x;
+            }
+
+            colors[led] = {(char)(rp * 255), (char)(gp * 255), (char)(bp * 255)};
+
+            phases[led] += 1;
+            if (phases[led] > 359) {
+                phases[led] -= 360;
+            }
+        }
+
+        hardware.addressableLEDs.set(colors, 6);
+        wait_us(10000);
+
+        //hardware.speaker.playToneSquare(400, 500);
+        //hardware.speaker.playToneSquare(800, 500);
+        //hardware.speaker.playToneSquare(1600, 500);
+    }
 }
 

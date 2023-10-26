@@ -12,6 +12,13 @@ class QuadratureEncoder {
     DigitalIn b;
     int convertGrayToBinary ();
 
+    int ticks;
+    int pos;
+    int pos_before;
+    int diff;
+
+    int convertGrayToBinary ();
+
     public:
     QuadratureEncoder(PinName A, PinName B);
 

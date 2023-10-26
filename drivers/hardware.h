@@ -24,19 +24,14 @@ class _Hardware {
     QuadratureEncoder leftKnob;
     QuadratureEncoder rightKnob;
 
-<<<<<<< Updated upstream
-    inline _Hardware(): addressableLEDs(p17, 6), 
-                arcadeButton(p15, p16), 
-=======
     inline _Hardware(): addressableLEDs(p13, 6), 
-                arcadeButton(p11, p12), 
->>>>>>> Stashed changes
+                arcadeButton(p11, p12),
                 speaker(p18),
                 laser(p14),
-                leftKnob(p8, p9),
-                rightKnob(p10, p11),
-                lightSensor(p19),
-                servos{Servo(p21), Servo(p22), Servo(p23), Servo(p24), Servo(p25), Servo(p26)} {
+                leftKnob(p5, p6),
+                rightKnob(p9, p10),
+                lightSensor(p20),
+                servos{Servo(p24), Servo(p23), Servo(p25), Servo(p21), Servo(p26), Servo(p22)} {
         servos[0].calibrate(0.001, 90);
         servos[1].calibrate(0.001, 90);
         servos[2].calibrate(0.001, 90);

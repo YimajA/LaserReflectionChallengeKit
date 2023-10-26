@@ -42,5 +42,6 @@ GameGenerator::GameConfig GameGenerator::generateGame() {
         }
         printf("Mirror no. %i: %i \n", i, initGame.mirrors[i].startingPosition);
     }
+
     return {};
 }
