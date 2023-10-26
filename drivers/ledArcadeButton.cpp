@@ -27,5 +27,5 @@ bool LEDArcadeButton::read() {
         this->out.write(cycleAmt < usOn);
     }
 
-    return this->in.read();
+    return !this->in.read();
 }

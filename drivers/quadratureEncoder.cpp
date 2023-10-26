@@ -1,11 +1,14 @@
 #include "quadratureEncoder.h"
 #include "mbed.h"
 
+int ticks;
+int pos; int pos_before;
+int diff;
 QuadratureEncoder::QuadratureEncoder(PinName A, PinName B): a(A), b(B) {
     // add pullups if necessary
     a.mode(PullUp);
     b.mode(PullUp);
-    wait_us(1000);
+
     ticks = 0; pos = 0; diff = 0; pos_before = 0;
 }
 

@@ -10,6 +10,7 @@ class QuadratureEncoder {
     private:
     DigitalIn a;
     DigitalIn b;
+    int convertGrayToBinary ();
 
     int ticks;
     int pos;
