@@ -15,7 +15,7 @@ class GameGenerator {
         MirrorConfig mirrors[6];
     };
 
-    static GameConfig generateGame();
+     GameConfig* generateGame();
 };
 
 #endif // GAME_GENERATION_INCLUDED

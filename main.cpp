@@ -4,6 +4,12 @@
 #include "hardware.h"
 #include "userInterface.h"
 #include "mirrorModule.h"
+#include "gameGeneration.h"
+
+void startGame(MirrorModule* mirrors);
+
+void endGame(bool didWin);
+//   mirrors[6] = new MirrorModule();
 
 // main() runs in its own thread in the OS
 int main()
@@ -26,8 +32,11 @@ int main()
      UserInterface uI1;
 
     int lastSelected = UserInterface::getMirrorSelected();
+    bool oldRead = false;
+    bool currRead = false;
+    bool isGameRunning = false;
 
-    hardware.laser.write(1);
+    
     // End Setup
 
     //Yimaj
@@ -48,16 +57,49 @@ int main()
              mirrors[lastSelected].setMode(MirrorModule::DEFAULT);
          }
         // Print out the selected mirror and rotation for testing
-        
-        
-        if (timer.elapsed_time().count() > 1000000) {
-            timer.reset();
-            printf("Left Encoder Reads: %d\n", leftEncoderRead);
-            printf("Right Encoder Reads: %d\n", rightEncoderRead);
-            printf("Selected Mirror: %d\n", selectedMirror);
-            printf("Mirror Rotation: %d degrees\n", mirrorRotation);
-            printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
+        //press once start press again end
+        currRead = UserInterface::isButtonPushed();
+
+        if (oldRead == false && currRead == true) {
+            isGameRunning = !isGameRunning;
+            if (isGameRunning) {
+                // new value, so game should start
+                startGame(mirrors);
+            } else {
+                endGame(false);
+            }
         }
+        oldRead = currRead;
+
+        if (isGameRunning) {
+            // TODO: code to run while the game is running
+
+        }
+/*
+        //Mode: WIN
+        bool sensorRead = hardware.lightSensor.read();
+
+        if (sensorRead == false) {
+            hardware.speaker.playToneSin(698, 500);
+            hardware.speaker.playToneSin(880, 500);
+            hardware.speaker.playToneSin(783, 500);
+            hardware.speaker.playToneSin(932, 500);
+            hardware.speaker.playToneSin(1318, 500);
+            hardware.speaker.playToneSin(1318, 250);
+            hardware.speaker.playToneSin(1318, 250);
+            hardware.speaker.playToneSin(1396, 250);
+
+        }
+
+*/
+        // if (timer.elapsed_time().count() > 1000000) {
+        //     timer.reset();
+        //     printf("Left Encoder Reads: %d\n", leftEncoderRead);
+        //     printf("Right Encoder Reads: %d\n", rightEncoderRead);
+        //     printf("Selected Mirror: %d\n", selectedMirror);
+        //     printf("Mirror Rotation: %d degrees\n", mirrorRotation);
+        //     printf("Button Pushed: %s\n", buttonPushed ? "Yes" : "No");
+        // }
         
         lastSelected = selectedMirror;
         // End Loop
@@ -116,3 +158,35 @@ int main()
     }
 }
 
+void startGame( MirrorModule* mirrors) {
+    hardware.laser.write(1);
+    GameGenerator newGame;
+    GameGenerator::GameConfig gameConfig;
+    GameGenerator::GameConfig *newMirrors = newGame.generateGame();
+    // gameConfig.mirrors[]
+    for (int i = 0; i < 6; i++) {
+        // int angle = gameConfig.mirrors[i].startingPosition;
+        int angle = newMirrors->mirrors[i].startingPosition;
+        mirrors[i].setAngle(angle); 
+        UserInterface::setMirrorAngle(angle, i);
+        UserInterface::setMirrorDisabled(i, newMirrors->mirrors[i].disabled);
+        mirrors[i].setMode(newMirrors->mirrors[i].disabled ? MirrorModule::DISABLED : MirrorModule::DEFAULT);
+        printf("angle: %i\n", angle);
+    }
+}
+
+void endGame(bool didWin) {
+    if (didWin) {
+        // play jingle
+        hardware.speaker.playToneSin(698, 500);
+        hardware.speaker.playToneSin(880, 500);
+        hardware.speaker.playToneSin(783, 500);
+        hardware.speaker.playToneSin(932, 500);
+        hardware.speaker.playToneSin(1318, 500);
+        hardware.speaker.playToneSin(1318, 250);
+        hardware.speaker.playToneSin(1318, 250);
+        hardware.speaker.playToneSin(1396, 250);
+    }
+
+    hardware.laser.write(0);
+}
