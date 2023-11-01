@@ -4,11 +4,11 @@
 #include<iostream>
 GameGenerator::GameConfig* GameGenerator::generateGame() {
     // Winning combinations
-    int combination1[6] = {-21, -23, -25, 5, 0, -15};
-    int combination2[6] = {-51, 0, 0, 0, 15, 0};
-    int combination3[6] = {-23, 5, 0, 0, 0, 0};
-    int combination4[6] = {-23, 0, 0, 0, 0, 83};
-    int combination5[6] = {39, 0, -42, 2, 0, -21}; 
+    int combination1[6] = {-23, -25, -21, 0, -15, 5};
+    int combination2[6] = {0, 0, -51, 15, 0, 0};
+    int combination3[6] = {5, 0, -23, 0, 0, 0};
+    int combination4[6] = {0, 0, -23, 0, 83, 0};
+    int combination5[6] = {0, -42, 39, 0, -21, 2};
 
     int* combinationArray[5] = {combination1, combination2, combination3, combination4, combination5};
     
