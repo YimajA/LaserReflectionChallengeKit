@@ -76,9 +76,9 @@ void UserInterface::setMirrorAngle(int degrees, int index) {
     
     if (selectedMirror == index) // if Selected Mirror changes
     {
-        encoderMirrorAngleZero = (encoderMirrorAngleZero - (degrees - mirrorAngles[index]));
+        encoderMirrorAngleZero = (hardware.rightKnob.read() + degrees);
     }
-    mirrorAngles[index] = degrees;
+    mirrorAngles[index] = -degrees;
         
 }
 

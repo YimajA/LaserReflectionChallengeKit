@@ -16,6 +16,8 @@ int main()
 {
     Timer timer;
     timer.start();
+    Timer sensorTimer;
+
     //initialize the hardware
     MirrorModule mirrors[6] = {MirrorModule(&hardware.servos[0], &hardware.addressableLEDs, 0),
                                MirrorModule(&hardware.servos[1], &hardware.addressableLEDs, 1),
@@ -35,6 +37,7 @@ int main()
     bool oldRead = false;
     bool currRead = false;
     bool isGameRunning = false;
+    bool wasSensorHit = false;
 
     
     // End Setup
@@ -59,7 +62,7 @@ int main()
         // Print out the selected mirror and rotation for testing
         //press once start press again end
         currRead = UserInterface::isButtonPushed();
-
+        
         if (oldRead == false && currRead == true) {
             isGameRunning = !isGameRunning;
             if (isGameRunning) {
@@ -70,11 +73,20 @@ int main()
             }
         }
         oldRead = currRead;
-
+       
         if (isGameRunning) {
             // TODO: code to run while the game is running
-
+            bool sensorHit = hardware.lightSensor.read() < 0.5;
+            if (sensorHit && !wasSensorHit)
+            {
+                sensorTimer.reset();
+                sensorTimer.start();
+            } else if (sensorHit && sensorTimer.elapsed_time().count() > 1000000) {
+                endGame(true);
+            }
+            wasSensorHit = sensorHit;
         }
+
 /*
         //Mode: WIN
         bool sensorRead = hardware.lightSensor.read();
