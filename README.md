@@ -3,7 +3,7 @@
 This project was completed for Gatech ECE 3011 Junior Design. The game is a device to control six motorized mirrors to guide a laser towards a target.
 The device is intended to be accessible to all age groups, but particularly aimed at fourth grade educational standards.
 
-The device is a custom construction with laser-cut acrylic, 9g hobby servos, and custom printed circuit boards. You can learn more about it in [this video](https://www.google.com/todo).
+The device is a custom construction with laser-cut acrylic, 9g hobby servos, and custom printed circuit boards. You can learn more about it in [this video](https://youtu.be/OSxG4dUNUok).
 
 The custom PCB contains an MBED LPC1768 microcontroller, and this repository is the code used to program it. The code is MBED OS6 and can be compiled from either Keil Studio online or
 MBED Studio offline.
